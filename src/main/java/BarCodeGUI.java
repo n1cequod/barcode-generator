@@ -5,8 +5,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BarCodeGUI extends JFrame {
     private JPanel mainPanel;
@@ -20,6 +21,7 @@ public class BarCodeGUI extends JFrame {
     private JTextField pathField;
     private JLabel pathLabel;
     private JButton chooseButton;
+    private JButton addProductButton;
     private String dirPath;
 
     public BarCodeGUI(String title) {
@@ -27,19 +29,33 @@ public class BarCodeGUI extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(mainPanel);
         this.pack();
+        List<String> productNameList = new ArrayList<>();
+        List<String> articleList = new ArrayList<>();
+        List<String> barcodeList = new ArrayList<>();
+        List<Integer> quantityList = new ArrayList<>();
+
+        addProductButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String article = articleField.getText();
+                String productName = productNameField.getText();
+                int quantity = Integer.parseInt(quantityField.getText());
+                String barcode = Utils.generateRandomString();
+                articleList.add(article);
+                productNameList.add(productName);
+                quantityList.add(quantity);
+                barcodeList.add(barcode);
+
+            }
+        });
 
         generateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String barcode = Utils.generateRandomString();
-                String filePath = dirPath + File.separator + barcode;
-//                String filePath = "D:\\Programm\\Java\\Projects" + File.separator + barcode;
-                String article = articleField.getText();
-                String productName = productNameField.getText();
-                int quantity = Integer.parseInt(quantityField.getText());
-                ByteArrayOutputStream byteOut = Generator.code(barcode);
-                BarcodeWriter.writePng(byteOut, filePath);
-                BarcodeWriter.writeToPdf(byteOut, filePath, article, productName, quantity);
+                String filePath = dirPath + File.separator + barcodeList.get(0);
+                BarcodeWriter.writeToPdf(barcodeList, filePath, articleList, productNameList, quantityList);
+//                BarcodeWriter.writePng(byteOut, filePath);
+
             }
         });
 
@@ -77,7 +93,7 @@ public class BarCodeGUI extends JFrame {
      */
     private void $$$setupUI$$$() {
         mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayoutManager(5, 2, new Insets(0, 0, 0, 0), -1, -1));
+        mainPanel.setLayout(new GridLayoutManager(6, 2, new Insets(0, 0, 0, 0), -1, -1));
         articleField = new JTextField();
         mainPanel.add(articleField, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         articleLabel = new JLabel();
@@ -91,7 +107,7 @@ public class BarCodeGUI extends JFrame {
         mainPanel.add(productLabel, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         generateButton = new JButton();
         generateButton.setText("Сгенерировать");
-        mainPanel.add(generateButton, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainPanel.add(generateButton, new GridConstraints(5, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         quantityLabel = new JLabel();
         quantityLabel.setText("Кол-во кодов");
         mainPanel.add(quantityLabel, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -99,10 +115,13 @@ public class BarCodeGUI extends JFrame {
         mainPanel.add(quantityField, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         pathLabel = new JLabel();
         pathLabel.setText("Путь размещения кодов");
-        mainPanel.add(pathLabel, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainPanel.add(pathLabel, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         chooseButton = new JButton();
         chooseButton.setText("Выбрать");
-        mainPanel.add(chooseButton, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainPanel.add(chooseButton, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        addProductButton = new JButton();
+        addProductButton.setText("Добавить");
+        mainPanel.add(addProductButton, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**
