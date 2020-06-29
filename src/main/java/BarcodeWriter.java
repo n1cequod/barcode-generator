@@ -18,9 +18,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
+
 public class BarcodeWriter {
 
-    private static final String FONT = "src/main/resources/fonts/FreeSans.ttf";
+    private static final String FONT = "/fonts/FreeSans.ttf";
 
     public static void writePng(ByteArrayOutputStream byteOut, String filePath){
         try(FileOutputStream fos = new FileOutputStream(filePath + ".png")) {
@@ -32,7 +33,11 @@ public class BarcodeWriter {
         }
     }
 
-    public static void writeToPdf(List<String> barcodeList, String filePath, List<String> articleList, List<String> productNameList, List<Integer> quantityList) {
+    public static void writeToPdf(List<String> barcodeList,
+                                  String filePath,
+                                  List<String> articleList,
+                                  List<String> productNameList,
+                                  List<Integer> quantityList) {
 
         try (PdfDocument pdfDoc = new PdfDocument(new PdfWriter(filePath + ".pdf"));
              Document document = new Document(pdfDoc)) {

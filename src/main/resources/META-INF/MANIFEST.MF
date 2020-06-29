@@ -1,7 +1,12 @@
 Manifest-Version: 1.0
 Main-Class: Main
-Class-Path: ant-launcher-1.10.8.jar barcode4j-2.1.jar avalon-framework-a
- pi-4.3.1.jar commons-cli-1.4.jar commons-lang3-3.10.jar avalon-framewor
- k-impl-4.2.0.jar itextpdf-5.5.13.1.jar avalon-framework-impl-4.3.1.jar 
- ant-1.10.8.jar
+Class-Path: commons-cli-1.4.jar io-7.1.11.jar pdfa-7.1.11.jar javac2-7.0
+ .3.jar avalon-framework-impl-4.3.1.jar slf4j-api-1.7.13.jar avalon-fram
+ ework-impl-4.2.0.jar svg-7.1.11.jar bcprov-jdk15on-1.64.jar barcode4j-2
+ .1.jar font-asian-7.1.11.jar ant-launcher-1.10.8.jar slf4j-nop-1.7.13.j
+ ar avalon-framework-api-4.3.1.jar asm-3.0.jar styled-xml-parser-7.1.11.
+ jar forms_rt-7.0.3.jar barcodes-7.1.11.jar asm-commons-3.0.jar asm-tree
+ -3.0.jar sign-7.1.11.jar forms-1.1-preview.jar ant-1.10.8.jar layout-7.
+ 1.11.jar kernel-7.1.11.jar jdom-1.0.jar hyph-7.1.11.jar bcpkix-jdk15on-
+ 1.64.jar commons-lang3-3.10.jar forms-7.1.11.jar
 
