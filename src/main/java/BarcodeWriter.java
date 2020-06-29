@@ -37,18 +37,18 @@ public class BarcodeWriter {
         try (PdfDocument pdfDoc = new PdfDocument(new PdfWriter(filePath + ".pdf"));
              Document document = new Document(pdfDoc)) {
 
+            PdfFont font = PdfFontFactory.createFont(FONT, PdfEncodings.IDENTITY_H, true);
+
+            Table table = new Table(UnitValue.createPointArray(new float[]{200F, 200F, 200F}));
+            table.setTextAlignment(TextAlignment.CENTER);
+            table.setFont(font);
+
             for (int i = 0; i < barcodeList.size(); i++) {
 
                 ByteArrayOutputStream byteOut = Generator.code(barcodeList.get(i));
 
                 Image image = new Image(ImageDataFactory.create(byteOut.toByteArray()));
                 image.setAutoScale(true);
-
-                PdfFont font = PdfFontFactory.createFont(FONT, PdfEncodings.IDENTITY_H, true);
-
-                Table table = new Table(UnitValue.createPointArray(new float[]{200F, 200F, 200F}));
-                table.setTextAlignment(TextAlignment.CENTER);
-                table.setFont(font);
 
                 for (int j = 0; j < quantityList.get(i); j++) {
                     Table nestedTable = new Table(UnitValue.createPointArray(new float[]{200F}));
@@ -58,8 +58,9 @@ public class BarcodeWriter {
                     Utils.removeBorder(nestedTable);
                     table.addCell(nestedTable);
                 }
-                document.add(table);
             }
+
+            document.add(table);
 
         } catch (IOException e) {
             e.printStackTrace();
